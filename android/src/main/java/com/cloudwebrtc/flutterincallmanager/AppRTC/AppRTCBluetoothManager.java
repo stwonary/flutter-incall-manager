@@ -26,9 +26,8 @@ import android.os.Looper;
 import android.os.Process;
 import android.util.Log;
 import java.util.List;
-import java.util.Set;
 
-import com.cloudwebrtc.flutterincallmanager.FlutterIncallManagerPlugin;
+import com.cloudwebrtc.flutterincallmanager.MethodCallHandlerImpl;
 
 /**
  * AppRTCProximitySensor manages functions related to Bluetoth devices in the
@@ -63,7 +62,7 @@ public class AppRTCBluetoothManager {
   }
 
   private final Context apprtcContext;
-  private final FlutterIncallManagerPlugin apprtcAudioManager;
+  private final MethodCallHandlerImpl apprtcAudioManager;
   private final AudioManager audioManager;
   private final Handler handler;
 
@@ -190,12 +189,12 @@ public class AppRTCBluetoothManager {
   }
 
   /** Construction. */
-  public static AppRTCBluetoothManager create(Context context, FlutterIncallManagerPlugin audioManager) {
+  public static AppRTCBluetoothManager create(Context context, MethodCallHandlerImpl audioManager) {
     Log.d(TAG, "create");
     return new AppRTCBluetoothManager(context, audioManager);
   }
 
-  protected AppRTCBluetoothManager(Context context, FlutterIncallManagerPlugin audioManager) {
+  protected AppRTCBluetoothManager(Context context, MethodCallHandlerImpl audioManager) {
     Log.d(TAG, "ctor");
     apprtcContext = context;
     apprtcAudioManager = audioManager;

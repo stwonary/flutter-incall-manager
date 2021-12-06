@@ -11,7 +11,7 @@ import android.os.Looper;
 import android.os.ResultReceiver;
 import androidx.core.content.ContextCompat;
 
-import com.cloudwebrtc.flutterincallmanager.FlutterIncallManagerPlugin;
+import com.cloudwebrtc.flutterincallmanager.MethodCallHandlerImpl;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class PermissionUtils {
 
 
     private static void maybeRequestPermissionsOnHostResume(
-            final FlutterIncallManagerPlugin plugin,
+            final MethodCallHandlerImpl plugin,
             final String[] permissions,
             int[] grantResults,
             final ResultReceiver resultReceiver,
@@ -72,7 +72,7 @@ public class PermissionUtils {
     }
 
     private static void requestPermissions(
-            FlutterIncallManagerPlugin plugin,
+            MethodCallHandlerImpl plugin,
             String[] permissions,
             ResultReceiver resultReceiver) {
         // Ask the Context whether we have already been granted the requested
@@ -157,7 +157,7 @@ public class PermissionUtils {
     }
 
     public static void requestPermissions(
-            final FlutterIncallManagerPlugin plugin,
+            final MethodCallHandlerImpl plugin,
             final String[] permissions,
             final Callback callback) {
         requestPermissions(
@@ -199,9 +199,9 @@ public class PermissionUtils {
      * using a <tt>ResultReceiver</tt>.
      */
     public static class RequestPermissionsFragment extends Fragment {
-        private FlutterIncallManagerPlugin plugin;
+        private MethodCallHandlerImpl plugin;
 
-        public void setPlugin(FlutterIncallManagerPlugin plugin){
+        public void setPlugin(MethodCallHandlerImpl plugin){
             this.plugin = plugin;
         }
         private void checkSelfPermissions(boolean requestPermissions) {
