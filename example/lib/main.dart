@@ -25,14 +25,12 @@ class _MyAppState extends State<MyApp> {
     List<Map<String, dynamic>> items = [
       {
         'InCallManager.start(audio)': () {
-          incallManager.start(
-              media: MediaType.AUDIO, auto: false, ringback: '_DEFAULT_');
+          incallManager.start(media: MediaType.AUDIO, auto: false, ringback: '_DEFAULT_');
         }
       },
       {
         'InCallManager.start(video)': () {
-          incallManager.start(
-              media: MediaType.VIDEO, auto: false, ringback: '_DEFAULT_');
+          incallManager.start(media: MediaType.VIDEO, auto: false, ringback: '_DEFAULT_');
         }
       },
       {
@@ -52,14 +50,12 @@ class _MyAppState extends State<MyApp> {
       },
       {
         'checkRecordPermission': () async {
-          showResult('checkRecordPermission',
-              await incallManager.checkRecordPermission());
+          showResult('checkRecordPermission', await incallManager.checkRecordPermission());
         }
       },
       {
         'checkCameraPermission': () async {
-          showResult('checkCameraPermission',
-              await incallManager.checkCameraPermission());
+          showResult('checkCameraPermission', await incallManager.checkCameraPermission());
         }
       },
       {
@@ -140,7 +136,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return items
-        .map((item) => RaisedButton(
+        .map((item) => ElevatedButton(
               onPressed: () async {
                 print('${item.keys.first}');
                 await item.values.first();
