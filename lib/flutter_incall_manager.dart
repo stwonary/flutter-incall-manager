@@ -9,20 +9,18 @@ enum ForceSpeakerType { DEFAULT, FORCE_ON, FORCE_OFF }
 enum RingtoneUriType { DEFAULT, BUNDLE }
 
 class IncallManager {
-  final MethodChannel _channel =
-      const MethodChannel('FlutterInCallManager.Method');
+  final MethodChannel _channel = const MethodChannel('FlutterInCallManager.Method');
   final EventChannel _eventChannel = EventChannel('FlutterInCallManager.Event');
 
   IncallManager() {
-    _eventChannel.receiveBroadcastStream().listen(eventListener,
-        onError: (Object obj) => throw obj as PlatformException);
+    _eventChannel
+        .receiveBroadcastStream()
+        .listen(eventListener, onError: (Object obj) => throw obj as PlatformException);
   }
 
   /// Start InCallManager
   Future<void> start(
-      {bool auto = true,
-      MediaType media = MediaType.AUDIO,
-      String ringback}) async {
+      {bool auto = true, MediaType media = MediaType.AUDIO, String? ringback}) async {
     await _channel.invokeMethod('start', <String, dynamic>{
       'media': media == MediaType.AUDIO ? 'audio' : 'video',
       'auto': auto,
@@ -31,33 +29,26 @@ class IncallManager {
   }
 
   /// Stop InCallManager
-  Future<void> stop({String busytone}) async {
-    await _channel
-        .invokeMethod('stop', <String, dynamic>{'busytone': busytone});
+  Future<void> stop({String? busytone}) async {
+    await _channel.invokeMethod('stop', <String, dynamic>{'busytone': busytone});
   }
 
   Future<void> setKeepScreenOn(bool enabled) async {
-    await _channel
-        .invokeMethod('setKeepScreenOn', <String, dynamic>{'enabled': enabled});
+    await _channel.invokeMethod('setKeepScreenOn', <String, dynamic>{'enabled': enabled});
   }
 
   Future<void> setSpeakerphoneOn(bool enabled) async {
-    await _channel.invokeMethod(
-        'setSpeakerphoneOn', <String, dynamic>{'enabled': enabled});
+    await _channel.invokeMethod('setSpeakerphoneOn', <String, dynamic>{'enabled': enabled});
   }
 
-  Future<void> setForceSpeakerphoneOn(
-      {ForceSpeakerType flag = ForceSpeakerType.DEFAULT}) async {
+  Future<void> setForceSpeakerphoneOn({ForceSpeakerType flag = ForceSpeakerType.DEFAULT}) async {
     await _channel.invokeMethod('setForceSpeakerphoneOn', <String, dynamic>{
-      'flag': flag == ForceSpeakerType.DEFAULT
-          ? 0
-          : (flag == ForceSpeakerType.FORCE_ON ? 1 : -1)
+      'flag': flag == ForceSpeakerType.DEFAULT ? 0 : (flag == ForceSpeakerType.FORCE_ON ? 1 : -1)
     });
   }
 
   Future<void> enableProximitySensor(bool enabled) async {
-    await _channel.invokeMethod(
-        'enableProximitySensor', <String, dynamic>{'enabled': enabled});
+    await _channel.invokeMethod('enableProximitySensor', <String, dynamic>{'enabled': enabled});
   }
 
   /// For Android only
@@ -72,8 +63,7 @@ class IncallManager {
 
   /// For Android only
   Future<void> setMicrophoneMute(bool enabled) async {
-    await _channel.invokeMethod(
-        'setMicrophoneMute', <String, dynamic>{'enabled': enabled});
+    await _channel.invokeMethod('setMicrophoneMute', <String, dynamic>{'enabled': enabled});
   }
 
   /*
@@ -81,13 +71,11 @@ class IncallManager {
   @iOSCategory:'ios value playback or default
   @ringSeconds: android only
   */
-  Future<void> startRingtone(RingtoneUriType ringtoneUriType,
-      String iOSCategory, int ringSeconds) async {
+  Future<void> startRingtone(
+      RingtoneUriType ringtoneUriType, String iOSCategory, int ringSeconds) async {
     try {
       await _channel.invokeMethod('startRingtone', <String, dynamic>{
-        'ringtoneUriType': (ringtoneUriType == RingtoneUriType.BUNDLE
-            ? '_BUNDLE_'
-            : '_DEFAULT_'),
+        'ringtoneUriType': (ringtoneUriType == RingtoneUriType.BUNDLE ? '_BUNDLE_' : '_DEFAULT_'),
         'ios_category': iOSCategory,
         'seconds': ringSeconds,
       });
@@ -163,10 +151,8 @@ class IncallManager {
   }
 
   final StreamController<bool> onProximity = StreamController.broadcast();
-  final StreamController<String> onAudioDeviceChanged =
-      StreamController.broadcast();
-  final StreamController<String> onAudioFocusChange =
-      StreamController.broadcast();
+  final StreamController<String> onAudioDeviceChanged = StreamController.broadcast();
+  final StreamController<String> onAudioFocusChange = StreamController.broadcast();
   final StreamController<String> onMediaButton = StreamController.broadcast();
 
   void eventListener(dynamic data) {
@@ -177,8 +163,7 @@ class IncallManager {
         bool isPlugged = event['isPlugged'];
         bool hasMic = event['hasMic'];
         String deviceName = event['deviceName'];
-        print(
-            "WiredHeadset:isPlugged:$isPlugged hasMic:$hasMic deviceName:$deviceName");
+        print("WiredHeadset:isPlugged:$isPlugged hasMic:$hasMic deviceName:$deviceName");
         break;
       case 'Proximity':
         bool isNear = event['isNear'];
@@ -196,9 +181,7 @@ class IncallManager {
         break;
       case 'onAudioFocusChange':
         String eventText = event['eventText'];
-        bool eventCode = event['eventCode'] is int
-            ? event['eventCode'] > 0
-            : event['eventCode'];
+        bool eventCode = event['eventCode'] is int ? event['eventCode'] > 0 : event['eventCode'];
         onAudioFocusChange.add(eventText);
         break;
       case 'onAudioDeviceChanged':
