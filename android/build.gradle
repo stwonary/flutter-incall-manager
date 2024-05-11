@@ -18,6 +18,10 @@ rootProject.allprojects {
 }
 apply plugin: 'com.android.library'
 android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.cloudwebrtc.flutterincallmanager'
+    }
+
     compileSdkVersion 28
 
     defaultConfig {
